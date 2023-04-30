@@ -3,11 +3,13 @@ package ru.yandex.practicum.filmorate.controllers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.exceptions.ValidationException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,11 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class FilmControllerTest {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     private Film filmSample;
+    private final FilmController controller = new FilmController();
 
     @BeforeEach
-    void createFilmSample() {
-        filmSample = new Film(1,"name", "description",
+    void createFilmSample() throws ValidationException {
+        filmSample = new Film(0,"name", "description",
                 LocalDate.parse("2000-01-01"), 120);
+        controller.createFilm(filmSample);
     }
 
     @Test
@@ -92,5 +96,19 @@ class FilmControllerTest {
     void createValidFilm() {
         Set<ConstraintViolation<Film>> violationSet = validator.validate(filmSample);
         assertEquals(0, violationSet.size());
+    }
+
+    @Test
+    void getFilms() {
+        List<Film> films = controller.getFilms();
+        Film createdFilm = filmSample.toBuilder().id(1).build();
+        assertEquals(createdFilm, films.get(0));
+    }
+
+    @Test
+    void updateFilm() throws ValidationException {
+        Film updatedFilm = filmSample.toBuilder().id(1).name("updated name").build();
+        controller.updateFilm(updatedFilm);
+        assertEquals(updatedFilm, controller.getFilms().get(0));
     }
 }
