@@ -21,7 +21,7 @@ class UserControllerTest {
     private final UserController controller = new UserController();
 
     @BeforeEach
-    void createUserSample() throws ValidationException {
+    void createUserSample() {
         userSample = new User(0,"user@mail.ru", "login",
                 "userName", LocalDate.parse("2000-01-01"));
         controller.createUser(userSample);
@@ -56,6 +56,7 @@ class UserControllerTest {
         User user = userSample.toBuilder().login(null).build();
 
         Set<ConstraintViolation<User>> violationSet = validator.validate(user);
+        //срабатывают 2 аннотации при валидации: @NotBlank и @NoSpaces
         assertEquals(2, violationSet.size());
     }
 
@@ -64,6 +65,7 @@ class UserControllerTest {
         User user = userSample.toBuilder().login("  ").build();
 
         Set<ConstraintViolation<User>> violationSet = validator.validate(user);
+        //срабатывают 2 аннотации при валидации: @NotBlank и @NoSpaces
         assertEquals(2, violationSet.size());
     }
 

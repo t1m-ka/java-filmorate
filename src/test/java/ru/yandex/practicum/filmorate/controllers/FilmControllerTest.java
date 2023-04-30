@@ -20,7 +20,7 @@ class FilmControllerTest {
     private final FilmController controller = new FilmController();
 
     @BeforeEach
-    void createFilmSample() throws ValidationException {
+    void createFilmSample() {
         filmSample = new Film(0,"name", "description",
                 LocalDate.parse("2000-01-01"), 120);
         controller.createFilm(filmSample);
@@ -44,9 +44,7 @@ class FilmControllerTest {
 
     @Test
     void createFilmWithWrongDescription() {
-        Film film = filmSample.toBuilder().description("very very looooooooooooooooooooooooooooooooooooooooooo"
-                + "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-                + "oooooooooooooooooooooooooooooooooooooooong description").build();
+        Film film = filmSample.toBuilder().description("1".repeat(201)).build();
 
         Set<ConstraintViolation<Film>> violationSet = validator.validate(film);
         assertEquals(1, violationSet.size());
@@ -73,6 +71,7 @@ class FilmControllerTest {
         Film film = filmSample.toBuilder().releaseDate(null).build();
 
         Set<ConstraintViolation<Film>> violationSet = validator.validate(film);
+        //срабатывают 2 аннотации при валидации: @NotNull и @CorrectFilmDate
         assertEquals(2, violationSet.size());
     }
 

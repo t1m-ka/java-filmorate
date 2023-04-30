@@ -23,11 +23,8 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user) throws ValidationException {
+    public User createUser(@Valid @RequestBody User user) {
         log.info("Получен запрос к эндпоинту: /POST /users");
-        if (user == null) {
-            throw new ValidationException("Тело запроса не содержит объекта");
-        }
         User newUser;
         if (user.getName() == null || user.getName().isBlank()) {
             newUser = user.toBuilder().id(userId++).name(user.getLogin()).build();
@@ -42,9 +39,6 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) throws ValidationException {
         log.info("Получен запрос к эндпоинту: /PUT /users");
-        if (user == null) {
-            throw new ValidationException("Тело запроса не содержит объекта");
-        }
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getId() == user.getId()) {
                 users.set(i, user);
