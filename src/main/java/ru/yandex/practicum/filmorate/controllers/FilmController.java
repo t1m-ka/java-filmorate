@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.ValidationException;
+import ru.yandex.practicum.filmorate.model.exceptions.ValidationException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;

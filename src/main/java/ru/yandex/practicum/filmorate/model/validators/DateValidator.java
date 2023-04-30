@@ -12,9 +12,9 @@ public class DateValidator implements ConstraintValidator<CorrectFilmDate, Local
 
     @Override
     public boolean isValid(LocalDate localDate, ConstraintValidatorContext constraintValidatorContext) {
-        if (localDate.isAfter(MIN_DATE)) {
-            return localDate.isBefore(LocalDate.now());
+        if (localDate == null) {
+            return false;
         }
-        return false;
+        return localDate.isAfter(MIN_DATE);
     }
 }

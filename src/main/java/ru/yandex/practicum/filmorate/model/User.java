@@ -1,19 +1,23 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import ru.yandex.practicum.filmorate.model.annotations.NoSpaces;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Value
 @Builder(toBuilder = true)
+@AllArgsConstructor
 public class User {
     int id;
 
+    @NotBlank
     @Email
     String email;
 
@@ -23,6 +27,7 @@ public class User {
 
     String name;
 
+    @NotNull
     @Past
     LocalDate birthday;
 }
