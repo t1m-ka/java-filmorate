@@ -23,7 +23,7 @@ public class InMemoryFilmStorage implements FilmStorage{
         Film newFilm = film.toBuilder().id(filmId++).build();
         films.add(newFilm);
         log.info("Фильм успешно создан, id = " + newFilm.getId() + ". Всего фильмов " + films.size());
-        return film;
+        return newFilm;
     }
 
     @Override
