@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import ru.yandex.practicum.filmorate.model.annotations.CorrectFilmDate;
+import ru.yandex.practicum.filmorate.model.annotation.CorrectFilmDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Film {
-    int id;
+    long id;
 
     @NotBlank
     String name;

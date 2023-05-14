@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import ru.yandex.practicum.filmorate.model.annotations.NoSpaces;
+import ru.yandex.practicum.filmorate.model.annotation.NoSpaces;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class User {
-    int id;
+    long id;
 
     @NotBlank
     @Email

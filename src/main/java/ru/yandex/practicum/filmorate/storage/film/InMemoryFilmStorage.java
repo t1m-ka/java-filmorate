@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class InMemoryFilmStorage implements FilmStorage{
     private final List<Film> films = new ArrayList<>();
-    private int filmId = 1;
+    private long filmId = 1;
 
     @Override
     public List<Film> getFilms() {

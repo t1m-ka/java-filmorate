@@ -27,6 +27,24 @@ public class UserController {
         return userStorage.getUsers();
     }
 
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable("id") long userId) {
+        log.info("Получен запрос к эндпоинту: /GET /users/" + userId);
+        return null;
+    }
+
+    @GetMapping("/{id}/friends")
+    public List<User> getUserFriends(@PathVariable("id") long userId) {
+        log.info("Получен запрос к эндпоинту: /GET /users/" + userId + "/friends");
+        return null;
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonUserFriends(@PathVariable("id") long userId, @PathVariable long otherUserId) {
+        log.info("Получен запрос к эндпоинту: /PUT /users/" + userId + "/friends/" + otherUserId);
+        return null;
+    }
+
     @PostMapping
     public User createUser(@Valid @RequestBody User user) {
         log.info("Получен запрос к эндпоинту: /POST /users");
@@ -40,5 +58,16 @@ public class UserController {
         if (result == null)
             throw new ValidationException("Фильм с id=" + user.getId() + " не найден");
         return result;
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public User addFriend(@PathVariable("id") long userId, @PathVariable long friendId) {
+        log.info("Получен запрос к эндпоинту: /PUT /users/" + userId + "/friends/" + friendId);
+        return null;
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public void deleteFriend(@PathVariable("id") long userId, @PathVariable long friendId) {
+        log.info("Получен запрос к эндпоинту: /DELETE /users/" + userId + "/friends/" + friendId);
     }
 }

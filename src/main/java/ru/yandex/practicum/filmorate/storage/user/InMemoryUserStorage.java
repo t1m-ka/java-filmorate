@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class InMemoryUserStorage implements UserStorage{
     private final List<User> users = new ArrayList<>();
-    private int userId = 1;
+    private long userId = 1;
 
     @Override
     public List<User> getUsers() {

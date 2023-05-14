@@ -27,6 +27,18 @@ public class FilmController {
         return filmStorage.getFilms();
     }
 
+    @GetMapping("/{id}")
+    public Film getFilmById(@PathVariable("id") long filmId) {
+        log.info("Получен запрос к эндпоинту: /GET /films/" + filmId);
+        return null;
+    }
+
+    @GetMapping("/popular?count={count}")
+    public List<Film> getMostPopularFilms(@RequestParam(required = false) long count) {
+        log.info("Получен запрос к эндпоинту: /GET /films/popular");
+        return null;
+    }
+
     @PostMapping
     public Film createFilm(@Valid @RequestBody Film film) {
         log.info("Получен запрос к эндпоинту: /POST /films");
@@ -40,5 +52,16 @@ public class FilmController {
         if (result == null)
             throw new ValidationException("Фильм с id=" + film.getId() + " не найден");
         return result;
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    public void addLike(@PathVariable("id") long userId, @PathVariable("userId") long otherUserId) {
+        log.info("Получен запрос к эндпоинту: /PUT /films/{id}/like/{userId}");
+
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public void deleteLike(@PathVariable("id") long userId, @PathVariable("userId") long otherUserId) {
+        log.info("Получен запрос к эндпоинту: /DELETE /films/{id}/like/{userId}");
     }
 }
