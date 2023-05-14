@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -16,6 +17,15 @@ public class InMemoryFilmStorage implements FilmStorage{
     @Override
     public List<Film> getFilms() {
         return films;
+    }
+
+    @Override
+    public Film getFilmById(long filmId) {
+        Optional<Film> result = films.stream()
+                .filter(x -> x.getId() == filmId)
+                .findFirst();
+        if (result.isPresent()) return result.get();
+        return null;
     }
 
     @Override
