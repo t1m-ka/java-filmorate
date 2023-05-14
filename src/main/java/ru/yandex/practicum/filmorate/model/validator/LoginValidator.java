@@ -1,6 +1,6 @@
-package ru.yandex.practicum.filmorate.model.validators;
+package ru.yandex.practicum.filmorate.model.validator;
 
-import ru.yandex.practicum.filmorate.model.annotations.NoSpaces;
+import ru.yandex.practicum.filmorate.model.annotation.NoSpaces;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,6 +1,6 @@
-package ru.yandex.practicum.filmorate.model.annotations;
+package ru.yandex.practicum.filmorate.model.annotation;
 
-import ru.yandex.practicum.filmorate.model.validators.LoginValidator;
+import ru.yandex.practicum.filmorate.model.validator.LoginValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.exceptions;
+package ru.yandex.practicum.filmorate.model.exception;
 
 import java.io.IOException;
 
