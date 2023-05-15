@@ -72,11 +72,28 @@ public class UserService {
     }
 
     public List<User> getUserFriends(long userId) {
+        checkUserExist(userId);
         ArrayList<User> result = new ArrayList<>();
         for (long friend : friends.get(userId)) {
             result.add(userStorage.getUserById(friend));
         }
         log.info("Количество друзей пользователя id=" + userId + " : " + result.size());
+        return result;
+    }
+
+    public List<User> getCommonUserFriends(long userId, long otherUserId) {
+        checkUserExist(userId);
+        checkUserExist(otherUserId);
+        ArrayList<User> result = new ArrayList<>();
+        for (long user : friends.get(userId)) {
+            for (long otherUser : friends.get(otherUserId)) {
+                if (user == otherUser) {
+                    result.add(userStorage.getUserById(user));
+                }
+            }
+        }
+        log.info("Количество общих друзей у пользователей id=" + userId + " и id="
+                + otherUserId + " : " + result.size());
         return result;
     }
 }
