@@ -42,7 +42,7 @@ public class InMemoryFilmStorage implements FilmStorage{
             if (films.get(i).getId() == film.getId()) {
                 films.set(i, film);
                 log.info("Фильм с id = " + film.getId() + " успешно обновлен.");
-                return film;
+                return films.get(i);
             }
         }
         return null;
