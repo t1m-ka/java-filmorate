@@ -85,6 +85,10 @@ public class UserService {
         checkUserExist(userId);
         checkUserExist(otherUserId);
         ArrayList<User> result = new ArrayList<>();
+        if (!friends.containsKey(userId) && !friends.containsKey(otherUserId)) {
+            log.info("Пользователи id=" + userId + " и id=" + otherUserId + " не имеют общих друзей");
+            return result;
+        }
         for (long user : friends.get(userId)) {
             for (long otherUser : friends.get(otherUserId)) {
                 if (user == otherUser) {

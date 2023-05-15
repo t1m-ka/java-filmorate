@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getCommonUserFriends(@PathVariable("id") long userId, @PathVariable long otherUserId) {
+    public List<User> getCommonUserFriends(@PathVariable("id") long userId, @PathVariable("otherId") long otherUserId) {
         log.info("Получен запрос к эндпоинту: /PUT /users/" + userId + "/friends/" + otherUserId);
         if (userId == otherUserId)
             throw new IncorrectRequestException("Id пользователя и id пользователя не могут быть одинаковыми");
