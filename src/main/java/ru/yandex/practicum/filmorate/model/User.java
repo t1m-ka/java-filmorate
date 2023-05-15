@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Value;
 import ru.yandex.practicum.filmorate.model.annotation.NoSpaces;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Value

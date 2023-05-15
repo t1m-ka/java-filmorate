@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-public class InMemoryUserStorage implements UserStorage{
+public class InMemoryUserStorage implements UserStorage {
     private final List<User> users = new ArrayList<>();
     private long userId = 1;
 

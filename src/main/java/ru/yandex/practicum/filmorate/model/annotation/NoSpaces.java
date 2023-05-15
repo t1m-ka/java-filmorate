@@ -13,6 +13,8 @@ import java.lang.annotation.*;
 
 public @interface NoSpaces {
     String message() default "не может содержать пробелы";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

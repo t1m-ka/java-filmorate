@@ -13,6 +13,8 @@ import java.lang.annotation.*;
 
 public @interface CorrectFilmDate {
     String message() default "не может быть раньше 28.12.1895 и позже настоящего времени";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

@@ -4,7 +4,6 @@ import ru.yandex.practicum.filmorate.model.annotation.CorrectFilmDate;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
 import java.time.LocalDate;
 
 public class DateValidator implements ConstraintValidator<CorrectFilmDate, LocalDate> {
