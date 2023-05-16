@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.exception.IncorrectRequestException;
 import ru.yandex.practicum.filmorate.model.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
@@ -46,6 +47,8 @@ public class UserService {
     public void addFriend(long userId, long friendId) {
         checkUserExist(userId);
         checkUserExist(friendId);
+        if (userId == friendId)
+            throw new IncorrectRequestException("Пользователь не может дружить с собой");
         if (friends.containsKey(userId)) {
             friends.get(userId).add(friendId);
         } else {
@@ -62,6 +65,8 @@ public class UserService {
     public void deleteFriend(long userId, long friendId) {
         checkUserExist(userId);
         checkUserExist(friendId);
+        if (userId == friendId)
+            throw new IncorrectRequestException("Пользователь не может дружить с собой");
         if (friends.containsKey(userId)) {
             friends.get(userId).remove(friendId);
         }
@@ -84,6 +89,8 @@ public class UserService {
     public List<User> getCommonUserFriends(long userId, long otherUserId) {
         checkUserExist(userId);
         checkUserExist(otherUserId);
+        if (userId == otherUserId)
+            throw new IncorrectRequestException("Id пользователя и id другого пользователя не могут быть одинаковыми");
         ArrayList<User> result = new ArrayList<>();
         if (!friends.containsKey(userId) && !friends.containsKey(otherUserId)) {
             log.info("Пользователи id=" + userId + " и id=" + otherUserId + " не имеют общих друзей");
