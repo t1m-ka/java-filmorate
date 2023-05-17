@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.exception.FilmNotFoundException;
@@ -10,13 +8,11 @@ import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import java.util.*;
 
 @Service
-@Slf4j
 public class FilmService {
     private final FilmStorage filmStorage;
     private final UserService userService;
     private final HashMap<Long, HashSet<Long>> likes = new HashMap<>();
 
-    @Autowired
     public FilmService(FilmStorage filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
         this.userService = userService;
@@ -55,7 +51,6 @@ public class FilmService {
         } else {
             likes.put(filmId, new HashSet<>(Collections.singleton(userId)));
         }
-        log.info("Пользователь id=" + userId + " поставил лайк фильму id=" + filmId);
     }
 
     public void deleteLike(long filmId, long userId) {
@@ -64,7 +59,6 @@ public class FilmService {
         if (likes.containsKey(filmId)) {
             likes.get(filmId).remove(userId);
         }
-        log.info("Пользователь id=" + userId + " убрал лайк фильма id=" + filmId);
     }
 
     public List<Film> getMostPopularFilms(long count) {

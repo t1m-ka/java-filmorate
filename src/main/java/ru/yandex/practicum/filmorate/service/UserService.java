@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.exception.IncorrectRequestException;
@@ -11,12 +9,10 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.util.*;
 
 @Service
-@Slf4j
 public class UserService {
     private final UserStorage userStorage;
     private final HashMap<Long, HashSet<Long>> friends = new HashMap<>();
 
-    @Autowired
     public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
@@ -59,7 +55,6 @@ public class UserService {
         } else {
             friends.put(friendId, new HashSet<>(Collections.singleton(userId)));
         }
-        log.info("Пользователи id=" + userId + " и id=" + friendId + " теперь друзья.");
     }
 
     public void deleteFriend(long userId, long friendId) {
@@ -73,7 +68,6 @@ public class UserService {
         if (friends.containsKey(friendId)) {
             friends.get(friendId).remove(userId);
         }
-        log.info("Пользователи id=" + userId + " и id=" + friendId + " больше не друзья");
     }
 
     public List<User> getUserFriends(long userId) {
@@ -82,7 +76,6 @@ public class UserService {
         for (long friend : friends.get(userId)) {
             result.add(userStorage.getUserById(friend));
         }
-        log.info("Количество друзей пользователя id=" + userId + " : " + result.size());
         return result;
     }
 
@@ -93,7 +86,6 @@ public class UserService {
             throw new IncorrectRequestException("Id пользователя и id другого пользователя не могут быть одинаковыми");
         ArrayList<User> result = new ArrayList<>();
         if (!friends.containsKey(userId) && !friends.containsKey(otherUserId)) {
-            log.info("Пользователи id=" + userId + " и id=" + otherUserId + " не имеют общих друзей");
             return result;
         }
         for (long user : friends.get(userId)) {
@@ -103,8 +95,6 @@ public class UserService {
                 }
             }
         }
-        log.info("Количество общих друзей у пользователей id=" + userId + " и id="
-                + otherUserId + " : " + result.size());
         return result;
     }
 }
