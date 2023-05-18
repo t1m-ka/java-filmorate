@@ -62,17 +62,16 @@ public class FilmService {
     }
 
     public List<Film> getMostPopularFilms(long count) {
-        List<Film> result = new ArrayList<>();
         Queue<Film> popularSortedFilms = new PriorityQueue<>((x1, x2) ->
-                likes.get(x2.getId()).size() - likes.get(x1.getId()).size());
-        popularSortedFilms.addAll(filmStorage.getFilms());
-        long i = 1;
-        for (Film film : popularSortedFilms) {
-            result.add(film);
-            if (i >= count)
-                break;
-            i++;
+                likes.get(x1.getId()).size() - likes.get(x2.getId()).size());
+        for (Film film : filmStorage.getFilms()) {
+            popularSortedFilms.add(film);
+            if (popularSortedFilms.size() > count) {
+                popularSortedFilms.poll();
+            }
         }
+        List<Film> result = new ArrayList<>(popularSortedFilms);
+        Collections.reverse(result);
         return result;
     }
 }
