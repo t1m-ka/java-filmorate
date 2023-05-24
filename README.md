@@ -11,5 +11,5 @@
 * получение списка самых популярных фильмов.
 
 ER-диаграмма базы данных:
-<img src="resources/DB.png"/>
+<img src="src/resources/DB.png"/>
 
