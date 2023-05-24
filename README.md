@@ -11,13 +11,4 @@
 * получение списка самых популярных фильмов.
 
 ER-диаграмма базы данных:
-![](https://github.com/t1m-ka/java-filmorate.git/src/resources/DB.png)
-1
-![](resources/DB.png)
-2
-![](/resources/DB.png)
-3
 ![](src/resources/DВ.png)
-4
-<img src="/src/resources/DB.png"/>
-
