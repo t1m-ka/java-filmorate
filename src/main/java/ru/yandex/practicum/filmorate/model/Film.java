@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.model.annotation.CorrectFilmDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Value
 @AllArgsConstructor
@@ -29,6 +30,11 @@ public class Film {
     @NotNull
     @Positive
     int duration;
+
+    @NotNull
+    Mpa mpa;
+
+    ArrayList<Genre> genres;
 }
 
 
