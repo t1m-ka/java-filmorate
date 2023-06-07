@@ -1,10 +1,13 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
-@Component
+@Value
+@AllArgsConstructor
 public class Mpa {
     @NotNull
     int id;
