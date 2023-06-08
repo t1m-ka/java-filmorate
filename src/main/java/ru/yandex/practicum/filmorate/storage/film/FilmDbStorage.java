@@ -41,18 +41,6 @@ public class FilmDbStorage implements FilmStorage {
         return allFilms;
     }
 
-    private Film makeFilm (ResultSet rs) throws SQLException {
-        long id = rs.getInt("id");
-        String name = rs.getString("name");
-        String description = rs.getString("description");
-        LocalDate releaseDate = rs.getDate("release_date").toLocalDate();
-        int duration = rs.getInt("duration");
-        int rate = rs.getInt("rate");
-        Mpa mpa = new Mpa(rs.getInt("mpa_id"), rs.getString("mpa_name"));
-
-        return new Film(id, name, description, releaseDate, duration, rate, mpa, new ArrayList<>());
-    }
-
     @Override
     public Film getFilmById(long filmId) {
         return null;
