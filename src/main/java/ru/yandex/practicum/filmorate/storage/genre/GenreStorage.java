@@ -8,8 +8,4 @@ public interface GenreStorage {
     List<Genre> getAllGenres();
 
     Genre getGenreById(int genreId);
-
-    Genre createGenre(Genre genre);
-
-    Genre updateGenre(Genre genre);
 }
