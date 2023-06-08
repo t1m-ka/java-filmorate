@@ -3,6 +3,8 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.model.exception.ValidationException;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -13,21 +15,23 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FilmControllerTest {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     private Film filmSample;
     private final UserService userService = new UserService(new InMemoryUserStorage());
-    private final FilmController controller = new FilmController(new FilmService(new InMemoryFilmStorage(), userService));
+    private final FilmController controller = new FilmController(
+            new FilmService(new InMemoryFilmStorage(), userService));
 
     @BeforeEach
     void createFilmSample() {
-        filmSample = new Film(0,"name", "description",
-                LocalDate.parse("2000-01-01"), 120);
+        filmSample = new Film(0, "name", "description",
+                LocalDate.parse("2000-01-01"), 120, 1, new Mpa(1, "1"), new HashSet<Genre>());
         controller.createFilm(filmSample);
     }
 

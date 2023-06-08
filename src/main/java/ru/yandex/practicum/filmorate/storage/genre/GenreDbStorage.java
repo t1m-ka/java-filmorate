@@ -2,14 +2,14 @@ package ru.yandex.practicum.filmorate.storage.genre;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.exception.GenreNotFoundException;
 import ru.yandex.practicum.filmorate.service.mapper.GenreRowMapper;
 
 import java.util.List;
 
-@Component
+@Repository
 public class GenreDbStorage implements GenreStorage {
     private final JdbcTemplate jdbcTemplate;
 

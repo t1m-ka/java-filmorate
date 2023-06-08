@@ -2,41 +2,44 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.model.annotation.CorrectFilmDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 
-@Value
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 public class Film {
-    long id;
+
+    private long id;
 
     @NotBlank
-    String name;
+    private String name;
 
     @NotBlank
     @Size(max = 200)
-    String description;
+    private String description;
 
     @NotNull
     @PastOrPresent
     @CorrectFilmDate
-    LocalDate releaseDate;
+    private LocalDate releaseDate;
 
     @NotNull
     @Positive
-    int duration;
+    private int duration;
 
-    int rate;
+    private int rate;
 
     @NotNull
-    Mpa mpa;
+    private Mpa mpa;
 
-    ArrayList<Genre> genres;
+    private HashSet<Genre> genres;
 }
 
 
