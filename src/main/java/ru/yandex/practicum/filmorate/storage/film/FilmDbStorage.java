@@ -2,10 +2,10 @@ package ru.yandex.practicum.filmorate.storage.film;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
+import ru.yandex.practicum.filmorate.service.mapper.FilmRowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class FilmDbStorage implements FilmStorage {
                 + "FROM film f "
                 + "JOIN mpa ON f.mpa_id = mpa.id;";
 
-        List<Film> allFilms = jdbcTemplate.query(sql, (rs, rowNum) -> makeFilm(rs));
+        List<Film> allFilms = jdbcTemplate.query(sql, new FilmRowMapper());
         return allFilms;
     }
 

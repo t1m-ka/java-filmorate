@@ -8,9 +8,10 @@ import java.util.List;
 @Service
 public class MpaService {
     public List<Mpa> getAllMpa() {
-
+        return null;
     }
 
     public Mpa getMpa(int id) {
+        return null;
     }
 }
