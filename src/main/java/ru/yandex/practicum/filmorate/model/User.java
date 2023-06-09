@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 import ru.yandex.practicum.filmorate.model.annotation.NoSpaces;
 
 import javax.validation.constraints.Email;
@@ -11,23 +11,23 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
-@Value
+@Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class User {
-    long id;
+    private long id;
 
     @NotBlank
     @Email
-    String email;
+    private String email;
 
     @NotBlank
     @NoSpaces
-    String login;
+    private String login;
 
-    String name;
+    private String name;
 
     @NotNull
     @Past
-    LocalDate birthday;
+    private LocalDate birthday;
 }

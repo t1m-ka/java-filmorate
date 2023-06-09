@@ -72,7 +72,7 @@ public class FilmDbStorage implements FilmStorage {
 
         long lastFilmId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM film", Long.class);
         String sqlUpdateFilmGenre = "INSERT INTO film_genre (film_id, genre_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
-        if (film.getGenres() != null && !film.getGenres().isEmpty()) {
+        if (film.getGenres() != null || !film.getGenres().isEmpty()) {
             for (Genre genre : film.getGenres()) {
                 jdbcTemplate.update(sqlUpdateFilmGenre, lastFilmId, genre.getId());
             }
