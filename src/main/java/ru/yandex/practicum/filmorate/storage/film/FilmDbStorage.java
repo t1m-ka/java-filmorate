@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.service.mapper.FilmRowMapper;
 
@@ -30,7 +31,7 @@ public class FilmDbStorage implements FilmStorage {
                 + "GROUP_CONCAT(genre.name) AS genre_name "
                 + "FROM film "
                 + "JOIN mpa ON film.mpa_id = mpa.id "
-                + "JOIN film_genre ON (film.id = film_genre.film_id) "
+                + "LEFT JOIN film_genre ON (film.id = film_genre.film_id) "
                 + "LEFT JOIN genre ON (film_genre.genre_id = genre.id) "
                 + "GROUP BY film.id";
         return jdbcTemplate.query(sql, new FilmRowMapper());
@@ -60,15 +61,22 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film createFilm(Film film) {
-        String sql = "INSERT INTO film (name, description, release_date, duration, mpa_id) "
+        String sqlCreateFilm = "INSERT INTO film (name, description, release_date, duration, mpa_id) "
                 + "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
+        jdbcTemplate.update(sqlCreateFilm,
                 film.getName(),
                 film.getDescription(),
                 film.getReleaseDate(),
                 film.getDuration(),
                 film.getMpa().getId());
-        sql = "SELECT film.*, "
+        String sqlUpdateFilmGenre = "INSERT INTO film_genre (film_id, genre_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
+        if (film.getGenres() != null && !film.getGenres().isEmpty()) {
+            for (Genre genre : film.getGenres()) {
+                jdbcTemplate.update(sqlUpdateFilmGenre, film.getId(), genre.getId());
+            }
+        }
+
+        String sql = "SELECT film.*, "
                 + "(SELECT COUNT(film_id) "
                 + "FROM likes "
                 + "WHERE film_id=film.id) AS rate, "
@@ -79,14 +87,34 @@ public class FilmDbStorage implements FilmStorage {
                 + "JOIN mpa ON film.mpa_id = mpa.id "
                 + "LEFT JOIN film_genre ON (film.id = film_genre.film_id) "
                 + "LEFT JOIN genre ON (film_genre.genre_id = genre.id) "
-                + "WHERE film.id IN (SELECT MAX(id) "
-                + "FROM film "
+                + "WHERE film.id = (SELECT MAX(id) "
+                + "FROM film) "
                 + "GROUP BY film.id";
         return (Film) jdbcTemplate.queryForObject(sql, new FilmRowMapper());
     }
 
     @Override
     public Film updateFilm(Film film) {
-        return null;
+        String sqlUpdateFilm = "UPDATE film SET " +
+                "name = ?, description = ?, release_date = ?, duration = ?, mpa_id = ? " +
+                "WHERE id = ?";
+        try {
+            jdbcTemplate.update(sqlUpdateFilm,
+                    film.getName(),
+                    film.getDescription(),
+                    film.getReleaseDate(),
+                    film.getDuration(),
+                    film.getMpa().getId(),
+                    film.getId());
+        } catch (EmptyResultDataAccessException e) {
+            throw new FilmNotFoundException("Фильм с id=" + film.getId() + " отсутствует");
+        }
+        String sqlUpdateFilmGenre = "INSERT INTO film_genre (film_id, genre_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
+        if (film.getGenres() != null && !film.getGenres().isEmpty()) {
+            for (Genre genre : film.getGenres()) {
+                jdbcTemplate.update(sqlUpdateFilmGenre, film.getId(), genre.getId());
+            }
+        }
+        return getFilmById(film.getId());
     }
 }
