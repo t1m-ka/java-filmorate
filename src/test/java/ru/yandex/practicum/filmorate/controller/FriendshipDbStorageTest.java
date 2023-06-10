@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@TestPropertySource(locations="classpath:application.properties")
-@Sql({"/schema.sql", "/data.sql", "/data-test.sql" })
+@TestPropertySource(locations = "classpath:application.properties")
+@Sql({"/schema.sql", "/data.sql", "/data-test.sql"})
 public class FriendshipDbStorageTest {
     private final FriendshipStorage friendshipStorage;
 
@@ -43,7 +43,7 @@ public class FriendshipDbStorageTest {
 
     @Test
     public void deleteFriendTest() {
-        friendshipStorage.deleteFriend(1,3);
+        friendshipStorage.deleteFriend(1, 3);
         List<User> friends = friendshipStorage.getUserFriends(1);
         assertThat(friends).hasSize(1);
     }
