@@ -7,7 +7,7 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class FilmRowMapper implements RowMapper {
     @Override
@@ -21,7 +21,7 @@ public class FilmRowMapper implements RowMapper {
         film.setRate(rs.getInt("rate"));
         film.setMpa(new Mpa(rs.getInt("mpa_id"), rs.getString("mpa_name")));
 
-        HashSet<Genre> genres = new HashSet<>();
+        LinkedHashSet<Genre> genres = new LinkedHashSet<>();
         if (rs.getString("genre_id") != null) {
             String[] idArr = rs.getString("genre_id").split(",");
             String[] nameArr = rs.getString("genre_name").split(",");

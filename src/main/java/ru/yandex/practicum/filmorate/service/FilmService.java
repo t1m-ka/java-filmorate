@@ -3,18 +3,18 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.filmRating.FilmRatingStorage;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
-    private final UserService userService;
-    private final HashMap<Long, HashSet<Long>> likes = new HashMap<>();
+    private final FilmRatingStorage filmRatingStorage;
 
-    public FilmService(FilmStorage filmStorage, UserService userService) {
+    public FilmService(FilmStorage filmStorage, FilmRatingStorage filmRatingStorage) {
         this.filmStorage = filmStorage;
-        this.userService = userService;
+        this.filmRatingStorage = filmRatingStorage;
     }
 
     public List<Film> getFilms() {
@@ -26,9 +26,7 @@ public class FilmService {
     }
 
     public Film createFilm(Film film) {
-        Film result = filmStorage.createFilm(film);
-        likes.put(result.getId(), new HashSet<>());
-        return result;
+        return filmStorage.createFilm(film);
     }
 
     public Film updateFilm(Film film) {
@@ -36,30 +34,14 @@ public class FilmService {
     }
 
     public void addLike(long filmId, long userId) {
-        if (likes.containsKey(filmId)) {
-            likes.get(filmId).add(userId);
-        } else {
-            likes.put(filmId, new HashSet<>(Collections.singleton(userId)));
-        }
+        filmRatingStorage.addLike(filmId, userId);
     }
 
     public void deleteLike(long filmId, long userId) {
-        if (likes.containsKey(filmId)) {
-            likes.get(filmId).remove(userId);
-        }
+        filmRatingStorage.deleteLike(filmId, userId);
     }
 
     public List<Film> getMostPopularFilms(long count) {
-        Queue<Film> popularSortedFilms = new PriorityQueue<>((x1, x2) ->
-                likes.get(x1.getId()).size() - likes.get(x2.getId()).size());
-        for (Film film : filmStorage.getFilms()) {
-            popularSortedFilms.add(film);
-            if (popularSortedFilms.size() > count) {
-                popularSortedFilms.poll();
-            }
-        }
-        List<Film> result = new ArrayList<>(popularSortedFilms);
-        Collections.reverse(result);
-        return result;
+        return filmRatingStorage.getMostPopularFilms(count);
     }
 }

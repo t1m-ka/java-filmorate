@@ -8,7 +8,7 @@ import ru.yandex.practicum.filmorate.model.annotation.CorrectFilmDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 @Data
 @AllArgsConstructor
@@ -39,7 +39,8 @@ public class Film {
     @NotNull
     private Mpa mpa;
 
-    private HashSet<Genre> genres;
+
+    private LinkedHashSet<Genre> genres;
 }
 
 
