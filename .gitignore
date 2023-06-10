@@ -47,3 +47,4 @@ db/*
 /.mvn/
 /mvnw
 /mvnw.cmd
+/src/main/resources/data-test.sql
