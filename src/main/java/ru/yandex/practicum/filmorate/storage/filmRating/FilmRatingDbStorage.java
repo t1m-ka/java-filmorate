@@ -39,14 +39,13 @@ public class FilmRatingDbStorage implements FilmRatingStorage {
     @Override
     public List<Film> getMostPopularFilms(long count) {
         String sql = "SELECT film.*, "
-                + "(SELECT COUNT(film_id) "
-                + "FROM likes "
-                + "WHERE film_id=film.id) AS rate, "
+                + "COUNT(DISTINCT likes.user_id) AS rate,"
                 + "mpa.name AS mpa_name, "
                 + "GROUP_CONCAT(genre.id) AS genre_id, "
                 + "GROUP_CONCAT(genre.name) AS genre_name "
                 + "FROM film "
                 + "JOIN mpa ON film.mpa_id = mpa.id "
+                + "LEFT JOIN likes ON (film.id = likes.film_id) "
                 + "LEFT JOIN film_genre ON (film.id = film_genre.film_id) "
                 + "LEFT JOIN genre ON (film_genre.genre_id = genre.id) "
                 + "GROUP BY film.id "

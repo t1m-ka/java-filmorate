@@ -96,12 +96,24 @@ public class FilmDbStorage implements FilmStorage {
         } catch (EmptyResultDataAccessException e) {
             throw new FilmNotFoundException("Фильм с id=" + film.getId() + " отсутствует");
         }
-        jdbcTemplate.update("DELETE FROM film_genre WHERE film_id = ?", film.getId());
+
+        List<Integer> dbGenres = jdbcTemplate.query("SELECT genre_id FROM film_genre WHERE film_id = ?",
+                (rs, rowNum) -> rs.getInt("genre_id"),
+                film.getId());
         String sqlUpdateFilmGenre = "INSERT INTO film_genre (film_id, genre_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
         if (film.getGenres() != null && !film.getGenres().isEmpty()) {
             for (Genre genre : film.getGenres()) {
-                jdbcTemplate.update(sqlUpdateFilmGenre, film.getId(), genre.getId());
+                if (!dbGenres.contains(genre.getId())) {
+                    jdbcTemplate.update(sqlUpdateFilmGenre, film.getId(), genre.getId());
+                }
+                dbGenres.remove((Integer) genre.getId());
             }
+            for (Integer genreId : dbGenres) {
+                jdbcTemplate.update("DELETE FROM film_genre WHERE film_id = ? AND genre_id = ?",
+                        film.getId(), genreId);
+            }
+        } else {
+            jdbcTemplate.update("DELETE FROM film_genre WHERE film_id = ?", film.getId());
         }
         return getFilmById(film.getId());
     }
